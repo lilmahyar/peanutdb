@@ -9,15 +9,15 @@ import (
 )
 
 type Record struct {
-	key string
-	value string
-	mu sync.Mutex
+	Key   string
+	Value string
+	mu    sync.Mutex
 }
 
-func DbSet(r Record , file *os.File) int64 {
+func DbSet(r Record, file *os.File) int64 {
 	r.mu.Lock()
 
-	b, err := file.WriteString(r.key + "," + r.value + "\r\n")
+	b, err := file.WriteString(r.Key + "," + r.Value + "\r\n")
 
 	if err != nil {
 		log.Fatal("error occurred in DbSet when performing write action, %v", err)
@@ -30,7 +30,7 @@ func DbSet(r Record , file *os.File) int64 {
 	}
 
 	defer r.mu.Unlock()
-	
+
 	return int64(b)
 }
 
