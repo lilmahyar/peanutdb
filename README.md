@@ -1,2 +1,2 @@
 # peanutdb
-## simple thread safe key-value database with in-memory index implemented in Go
+## simple thread safe key-value storage with in-memory index implemented in Go
