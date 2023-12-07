@@ -55,7 +55,7 @@ func executeCommand(command string, args []string, dbFile *os.File) {
 
 		key, value := args[0], args[1]
 
-		bytesSize := db.DbSet(key, value, dbFile)
+		bytesSize := db.DbSet(db.Record{Key: key, Value: value}, dbFile)
 
 		currentFileSize := getFileSize(dbFile)
 

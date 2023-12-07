@@ -5,10 +5,19 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 )
 
-func DbSet(key, value string, file *os.File) int64 {
-	b, err := file.WriteString(key + "," + value + "\r\n")
+type Record struct {
+	key string
+	value string
+	mu sync.Mutex
+}
+
+func DbSet(r Record , file *os.File) int64 {
+	r.mu.Lock()
+
+	b, err := file.WriteString(r.key + "," + r.value + "\r\n")
 
 	if err != nil {
 		log.Fatal("error occurred in DbSet when performing write action, %v", err)
@@ -20,6 +29,8 @@ func DbSet(key, value string, file *os.File) int64 {
 		log.Fatal("error occurred in DbSet when performing write action, %v", err)
 	}
 
+	defer r.mu.Unlock()
+	
 	return int64(b)
 }
 
